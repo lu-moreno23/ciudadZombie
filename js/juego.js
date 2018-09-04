@@ -148,6 +148,10 @@ Juego.dibujar = function() {
 
   /* Completar */
 
+    Dibujante.dibujarEntidad(Jugador);
+    this.dibujarImagen();
+  
+
   // Se recorren los obstaculos de la carretera pintandolos
   this.obstaculosCarretera.forEach(function(obstaculo) {
     Dibujante.dibujarEntidad(obstaculo);
