@@ -20,20 +20,20 @@ var Juego = {
   obstaculosCarretera: [
     /*Aca se van a agregar los obstaculos visibles. Tenemos una valla horizontal
     de ejemplo, pero podras agregar muchos mas. */
-    new Obstaculo('imagenes/valla_horizontal.png', 70, 430, 30, 30, 1),
-    new Obstaculo('imagenes/valla_horizontal.png', 100, 430, 30, 30, 1),
-    new Obstaculo('imagenes/valla_horizontal.png', 130, 430, 30, 30, 1),
-    new Obstaculo('imagenes/valla_horizontal.png', 480, 420, 30, 30, 1),
-    new Obstaculo('imagenes/valla_vertical.png',180,460,30, 30,1),
-    new Obstaculo('imagenes/valla_vertical.png',450,440,30, 30,1),
-    new Obstaculo('imagenes/valla_vertical.png',450,470,30, 30,1),
+    new Obstaculo('imagenes/valla_horizontal.png', 70, 430, 30, 30, 2),
+    new Obstaculo('imagenes/valla_horizontal.png', 100, 430, 30, 30, 2),
+    new Obstaculo('imagenes/valla_horizontal.png', 130, 430, 30, 30, 2),
+    new Obstaculo('imagenes/valla_horizontal.png', 480, 420, 30, 30, 2),
+    new Obstaculo('imagenes/valla_vertical.png',180,460,30, 30,2),
+    new Obstaculo('imagenes/valla_vertical.png',450,440,30, 30,2),
+    new Obstaculo('imagenes/valla_vertical.png',450,470,30, 30,2),
     new Obstaculo('imagenes/bache.png',180,280,30, 30,1),
     new Obstaculo('imagenes/bache.png',310,480,30, 30,1),
     new Obstaculo('imagenes/bache.png',510,130,30, 30,1),
     new Obstaculo('imagenes/bache.png',810,400,30, 30,1),
-    new Obstaculo('imagenes/auto_verde_abajo.png',180,230,15, 30,1),
-    new Obstaculo('imagenes/auto_verde_abajo.png',860,360,15, 30,1),
-    new Obstaculo('imagenes/auto_verde_derecha.png',380, 470, 30, 15,1),
+    new Obstaculo('imagenes/auto_verde_abajo.png',180,230,15, 30,3),
+    new Obstaculo('imagenes/auto_verde_abajo.png',860,360,15, 30,3),
+    new Obstaculo('imagenes/auto_verde_derecha.png',380, 470, 30, 15,3),
   ],
   /* Estos son los bordes con los que se puede chocar, por ejemplo, la vereda.
    Ya estan ubicados en sus lugares correspondientes. Ya aparecen en el mapa, ya
@@ -156,15 +156,15 @@ Juego.capturarMovimiento = function(tecla) {
     de sus metodos  */
 
     /* COMPLETAR */
-
   }
 };
 
 Juego.dibujar = function() {
   // Borrar el fotograma actual
   Dibujante.borrarAreaDeJuego();
-  //Se pinta la imagen de fondo segun el estado del juego
+  //Se pinta la imagen de fondo segun el estado del juego y se dibuja la linea de llegada
   this.dibujarFondo();
+  this.lineaDeLlegada();
 
 
   /* Aca hay que agregar la logica para poder dibujar al jugador principal
@@ -252,6 +252,12 @@ Juego.intersecan = function(elemento1, elemento2, x, y) {
   return ((piso1 >= techo2) && (techo1 <= piso2) &&
     (derecha1 >= izquierda2) && (izquierda1 <= derecha2))
 };
+
+//Aca se dibuja la linea de llegada
+
+Juego.lineaDeLlegada = function(){
+  Dibujante.dibujarRectangulo("red",720,450,200,5);
+}
 
 Juego.dibujarFondo = function() {
   // Si se termino el juego hay que mostrar el mensaje de game over de fondo
