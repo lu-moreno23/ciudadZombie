@@ -24,16 +24,16 @@ var Juego = {
     new Obstaculo('imagenes/valla_horizontal.png', 100, 430, 30, 30, 2),
     new Obstaculo('imagenes/valla_horizontal.png', 130, 430, 30, 30, 2),
     new Obstaculo('imagenes/valla_horizontal.png', 480, 420, 30, 30, 2),
-    new Obstaculo('imagenes/valla_vertical.png',180,460,30, 30,2),
-    new Obstaculo('imagenes/valla_vertical.png',450,440,30, 30,2),
-    new Obstaculo('imagenes/valla_vertical.png',450,470,30, 30,2),
-    new Obstaculo('imagenes/bache.png',180,280,30, 30,1),
-    new Obstaculo('imagenes/bache.png',310,480,30, 30,1),
-    new Obstaculo('imagenes/bache.png',510,130,30, 30,1),
-    new Obstaculo('imagenes/bache.png',810,400,30, 30,1),
-    new Obstaculo('imagenes/auto_verde_abajo.png',180,230,15, 30,3),
-    new Obstaculo('imagenes/auto_verde_abajo.png',860,360,15, 30,3),
-    new Obstaculo('imagenes/auto_verde_derecha.png',380, 470, 30, 15,3),
+    new Obstaculo('imagenes/valla_vertical.png', 180, 460, 30, 30, 2),
+    new Obstaculo('imagenes/valla_vertical.png', 450, 440, 30, 30, 2),
+    new Obstaculo('imagenes/valla_vertical.png', 450, 470, 30, 30, 2),
+    new Obstaculo('imagenes/bache.png', 180, 280, 30, 30, 1),
+    new Obstaculo('imagenes/bache.png', 310, 480, 30, 30, 1),
+    new Obstaculo('imagenes/bache.png', 510, 130, 30, 30, 1),
+    new Obstaculo('imagenes/bache.png', 810, 400, 30, 30, 1),
+    new Obstaculo('imagenes/auto_verde_abajo.png', 180, 230, 15, 30, 3),
+    new Obstaculo('imagenes/auto_verde_abajo.png', 860, 360, 15, 30, 3),
+    new Obstaculo('imagenes/auto_verde_derecha.png', 380, 470, 30, 15, 3),
   ],
   /* Estos son los bordes con los que se puede chocar, por ejemplo, la vereda.
    Ya estan ubicados en sus lugares correspondientes. Ya aparecen en el mapa, ya
@@ -56,8 +56,55 @@ var Juego = {
   ],
   // Los enemigos se agregaran en este arreglo.
   enemigos: [
-
-  ]
+    new ZombieCaminante('imagenes/zombie1.png', 70, 430, 10, 10, 1, {
+      desdeX: 0,
+      hastaX: 577,
+      desdeY: 0,
+      hastaY: 961
+    }),
+    new ZombieCaminante('imagenes/zombie1.png', 60, 400, 10, 10, 1, {
+      desdeX: 0,
+      hastaX: 577,
+      desdeY: 0,
+      hastaY: 961
+    }),
+    new ZombieCaminante('imagenes/zombie1.png', 120, 300, 10, 10, 1, {
+      desdeX: 0,
+      hastaX: 577,
+      desdeY: 0,
+      hastaY: 961
+    }),
+    new ZombieCaminante('imagenes/zombie1.png', 200, 150, 10, 10, 1, {
+      desdeX: 0,
+      hastaX: 577,
+      desdeY: 0,
+      hastaY: 961
+    }),
+    new ZombieCaminante('imagenes/zombie1.png', 250, 200, 10, 10, 1, {
+      desdeX: 0,
+      hastaX: 577,
+      desdeY: 0,
+      hastaY: 961
+    }),
+    new ZombieConductor('imagenes/zombie3.png', 400, 337, 10, 10, 1, {
+      desdeX: 0,
+      hastaX: 577,
+      desdeY: 0,
+      hastaY: 577
+    }, 'h'),
+    new ZombieConductor('imagenes/zombie4.png', 652, 200, 10, 10, 1, {
+      desdeX: 0,
+      hastaX: 961,
+      desdeY: 0,
+      hastaY: 577
+    }, 'v'),
+    new ZombieConductor('imagenes/zombie4.png', 684, 20, 10, 10, 1, {
+      desdeX: 0,
+      hastaX: 961,
+      desdeY: 0,
+      hastaY: 577
+    }, 'v'),
+  ],
 
 }
 
@@ -65,7 +112,7 @@ var Juego = {
 a ellos. No hace falta comprender esta parte. Pero si queres agregar tus propies
 imagenes tendras que poner su ruta en la lista para que pueda ser precargada como
 todas las demas. */
-Juego.iniciarRecursos = function() {
+Juego.iniciarRecursos = function () {
   Resources.load([
     'imagenes/mapa.png',
     'imagenes/mensaje_gameover.png',
@@ -90,11 +137,11 @@ Juego.iniciarRecursos = function() {
 };
 
 // Agrega los bordes de las veredas a los obstaculos de la carretera
-Juego.obstaculos = function() {
+Juego.obstaculos = function () {
   return this.obstaculosCarretera.concat(this.bordes);
 };
 
-Juego.comenzar = function() {
+Juego.comenzar = function () {
   // Inicializar el canvas del juego
   Dibujante.inicializarCanvas(this.anchoCanvas, this.altoCanvas);
   /* El bucle principal del juego se llamara continuamente para actualizar
@@ -103,7 +150,7 @@ Juego.comenzar = function() {
   this.buclePrincipal();
 };
 
-Juego.buclePrincipal = function() {
+Juego.buclePrincipal = function () {
 
   // Con update se actualiza la logica del juego, tanto ataques como movimientos
   this.update();
@@ -113,13 +160,13 @@ Juego.buclePrincipal = function() {
   window.requestAnimationFrame(this.buclePrincipal.bind(this));
 };
 
-Juego.update = function() {
+Juego.update = function () {
   this.calcularAtaques();
   this.moverEnemigos();
 }
 // Captura las teclas y si coincide con alguna de las flechas tiene que
 // hacer que el jugador principal se mueva
-Juego.capturarMovimiento = function(tecla) {
+Juego.capturarMovimiento = function (tecla) {
   var movX = 0;
   var movY = 0;
   var velocidad = this.jugador.velocidad;
@@ -129,7 +176,7 @@ Juego.capturarMovimiento = function(tecla) {
     movX = -velocidad;
     this.jugador.sprite = 'imagenes/auto_rojo_izquierda.png';
     this.jugador.alto = 15;
-    this.jugador.ancho = 30;    
+    this.jugador.ancho = 30;
   }
   if (tecla == 'arriba') {
     movY = -velocidad;
@@ -141,7 +188,7 @@ Juego.capturarMovimiento = function(tecla) {
     movX = velocidad;
     this.jugador.sprite = 'imagenes/auto_rojo_derecha.png';
     this.jugador.alto = 15;
-    this.jugador.ancho = 30;    
+    this.jugador.ancho = 30;
   }
   if (tecla == 'abajo') {
     movY = velocidad;
@@ -149,6 +196,8 @@ Juego.capturarMovimiento = function(tecla) {
     this.jugador.alto = 30;
     this.jugador.ancho = 15;
   }
+
+  this.jugador.moverse(movX, movY);
 
   // Si se puede mover hacia esa posicion hay que hacer efectivo este movimiento
   if (this.chequearColisiones(movX + this.jugador.x, movY + this.jugador.y)) {
@@ -159,7 +208,7 @@ Juego.capturarMovimiento = function(tecla) {
   }
 };
 
-Juego.dibujar = function() {
+Juego.dibujar = function () {
   // Borrar el fotograma actual
   Dibujante.borrarAreaDeJuego();
   //Se pinta la imagen de fondo segun el estado del juego y se dibuja la linea de llegada
@@ -173,17 +222,17 @@ Juego.dibujar = function() {
 
   /* Completar */
 
-    Dibujante.dibujarEntidad(Jugador);
-  
+  Dibujante.dibujarEntidad(Jugador);
+
 
   // Se recorren los obstaculos de la carretera pintandolos
-  this.obstaculosCarretera.forEach(function(obstaculo) {
+  this.obstaculosCarretera.forEach(function (obstaculo) {
     Dibujante.dibujarEntidad(obstaculo);
   });
 
   // Se recorren los enemigos pintandolos
-  this.enemigos.forEach(function(enemigo) {
-    /* Completar */
+  this.enemigos.forEach(function (enemigo) {
+    Dibujante.dibujarEntidad(enemigo);
   });
 
   // El dibujante dibuja las vidas del jugador
@@ -200,22 +249,26 @@ Juego.dibujar = function() {
 /* Recorre los enemigos haciendo que se muevan. De la misma forma que hicimos
 un recorrido por los enemigos para dibujarlos en pantalla ahora habra que hacer
 una funcionalidad similar pero para que se muevan.*/
-Juego.moverEnemigos = function() {
-  /* COMPLETAR */
+Juego.moverEnemigos = function () {
+  this.enemigos.forEach(function (enemigo) {
+    enemigo.mover();
+  });
 };
 
 /* Recorre los enemigos para ver cual esta colisionando con el jugador
 Si colisiona empieza el ataque el zombie, si no, deja de atacar.
 Para chequear las colisiones estudiar el metodo posicionValida. Alli
 se ven las colisiones con los obstaculos. En este caso sera con los zombies. */
-Juego.calcularAtaques = function() {
-  this.enemigos.forEach(function(enemigo) {
+Juego.calcularAtaques = function () {
+  this.enemigos.forEach(function (enemigo) {
     if (this.intersecan(enemigo, this.jugador, this.jugador.x, this.jugador.y)) {
       /* Si el enemigo colisiona debe empezar su ataque
       COMPLETAR */
+      enemigo.comenzarAtaque(this.jugador);
     } else {
       /* Sino, debe dejar de atacar
       COMPLETAR */
+      enemigo.dejarDeAtacar(this.jugador);
     }
   }, this);
 };
@@ -224,12 +277,13 @@ Juego.calcularAtaques = function() {
 
 /* Aca se chequea si el jugador se peude mover a la posicion destino.
  Es decir, que no haya obstaculos que se interpongan. De ser asi, no podra moverse */
-Juego.chequearColisiones = function(x, y) {
+Juego.chequearColisiones = function (x, y) {
   var puedeMoverse = true
-  this.obstaculos().forEach(function(obstaculo) {
+  this.obstaculos().forEach(function (obstaculo) {
     if (this.intersecan(obstaculo, this.jugador, x, y)) {
 
       /*COMPLETAR, obstaculo debe chocar al jugador*/
+      obstaculo.chocar(this.jugador);
 
       puedeMoverse = false
     }
@@ -239,7 +293,7 @@ Juego.chequearColisiones = function(x, y) {
 
 /* Este metodo chequea si los elementos 1 y 2 si cruzan en x e y
  x e y representan la coordenada a la cual se quiere mover el elemento2*/
-Juego.intersecan = function(elemento1, elemento2, x, y) {
+Juego.intersecan = function (elemento1, elemento2, x, y) {
   var izquierda1 = elemento1.x
   var derecha1 = izquierda1 + elemento1.ancho
   var techo1 = elemento1.y
@@ -255,11 +309,11 @@ Juego.intersecan = function(elemento1, elemento2, x, y) {
 
 //Aca se dibuja la linea de llegada
 
-Juego.lineaDeLlegada = function(){
-  Dibujante.dibujarRectangulo("red",720,450,200,5);
+Juego.lineaDeLlegada = function () {
+  Dibujante.dibujarRectangulo("red", 720, 450, 200, 5);
 }
 
-Juego.dibujarFondo = function() {
+Juego.dibujarFondo = function () {
   // Si se termino el juego hay que mostrar el mensaje de game over de fondo
   if (this.terminoJuego()) {
     Dibujante.dibujarImagen('imagenes/mensaje_gameover.png', 0, 5, this.anchoCanvas, this.altoCanvas);
@@ -275,12 +329,12 @@ Juego.dibujarFondo = function() {
   }
 };
 
-Juego.terminoJuego = function() {
+Juego.terminoJuego = function () {
   return this.jugador.vidas <= 0;
 };
 
 /* Se gana el juego si se sobre pasa cierto altura y */
-Juego.ganoJuego = function() {
+Juego.ganoJuego = function () {
   return (this.jugador.y + this.jugador.alto) > 530;
 };
 
@@ -288,7 +342,7 @@ Juego.iniciarRecursos();
 
 // Activa las lecturas del teclado al presionar teclas
 // Documentacion: https://developer.mozilla.org/es/docs/Web/API/EventTarget/addEventListener
-document.addEventListener('keydown', function(e) {
+document.addEventListener('keydown', function (e) {
   var allowedKeys = {
     37: 'izq',
     38: 'arriba',
